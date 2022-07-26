@@ -1,13 +1,13 @@
-<script>
-  export let menu;
+<script lang="ts">
+  export let menu: any[];
   export let root = false;
-  export let expanded = null;
+  export let expanded = false;
 
   import { onMount } from 'svelte';
-  let spanEl;
+  let spanEl: HTMLElement;
   let anchor = { x: 0, y: 0 };
   onMount(() => {
-    const { x, y, bottom, right, top, height } = spanEl.getBoundingClientRect();
+    const { x, bottom, right, top } = spanEl.getBoundingClientRect();
     
     // anchors are vertical only for top-level toolbar items
     if (root) {
@@ -16,7 +16,8 @@
     }
     
     // getting the parent position to find this element's relative position.
-		const parentRect = spanEl.parentElement.parentElement.getBoundingClientRect();
+    const parentRect = spanEl?.parentElement?.parentElement?.getBoundingClientRect();
+    if (!parentRect) return;
     anchor = { x: right - x, y: top - parentRect.top };
   });
 </script>
